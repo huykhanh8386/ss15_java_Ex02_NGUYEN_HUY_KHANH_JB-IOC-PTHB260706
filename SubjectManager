@@ -1,0 +1,62 @@
+package Quanlymonhoc;
+import java.util.ArrayList;
+public class SubjectManager<T extends Subject> {
+    private ArrayList<T> subjectList = new ArrayList<>();
+    public void addSubject(T subject) {
+        subjectList.add(subject);
+        System.out.println("Thêm môn học thành công!");
+    }
+    public void displaySubjects() {
+        if (subjectList.isEmpty()) {
+            System.out.println("Danh sách môn học đang trống!");
+            return;
+        }
+        System.out.println("\n===== DANH SÁCH MÔN HỌC =====");
+        for (T subject : subjectList) {
+            System.out.println(subject);
+        }
+    }
+    public void removeSubject(String code) {
+        T subjectDelete = null;
+        for (T subject : subjectList) {
+            if (subject.getCode().equalsIgnoreCase(code)) {
+                subjectDelete = subject;
+                break;
+            }
+        }
+        if (subjectDelete != null) {
+            subjectList.remove(subjectDelete);
+            System.out.println("Xóa môn học thành công!");
+        } else {
+            System.out.println("Không tìm thấy môn học có mã " + code);
+        }
+    }
+    public void searchByName(String name) {
+        boolean found = false;
+        for (T subject : subjectList) {
+            if (subject.getName().toLowerCase().contains(name.toLowerCase())) {
+                System.out.println(subject);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Không có môn học phù hợp");
+        }
+    }
+    public void filterByCredits() {
+        boolean found = false;
+        System.out.println("\n===== MÔN HỌC CÓ TÍN CHỈ > 3 =====");
+        for (T subject : subjectList) {
+            if (subject.getCredits() > 3) {
+                System.out.println(subject);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println(
+                    "Không có môn học nào có tín chỉ > 3"
+            );
+        }
+    }
+}
+
