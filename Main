@@ -1,0 +1,76 @@
+package Quanlymonhoc;
+
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        SubjectManager<Subject> manager = new SubjectManager<>();
+        int choice = 0;
+        do {
+            System.out.println();
+            System.out.println("===== QUẢN LÝ MÔN HỌC =====");
+            System.out.println("1. Hiển thị môn học");
+            System.out.println("2. Thêm môn học");
+            System.out.println("3. Xóa môn học");
+            System.out.println("4. Tìm kiếm theo tên");
+            System.out.println("5. Lọc tín chỉ > 3");
+            System.out.println("6. Thoát");
+            System.out.print("Chọn chức năng: ");
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Vui lòng nhập số!");
+                continue;
+            }
+            switch (choice) {
+                case 1:
+                    manager.displaySubjects();
+                    break;
+                case 2:
+                    System.out.print("Nhập mã môn học: ");
+                    String code = sc.nextLine();
+                    System.out.print("Nhập tên môn học: ");
+                    String name = sc.nextLine();
+                    int credits;
+                    while (true) {
+                        try {
+                            System.out.print("Nhập số tín chỉ: ");
+                            credits = Integer.parseInt(sc.nextLine());
+                            if (credits < 0 || credits > 10) {
+                                throw new IllegalArgumentException("Tín chỉ phải từ 0 đến 10!");
+                            }
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Tín chỉ phải là số!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    System.out.print("Nhập ngày bắt đầu (dd/MM/yyyy): ");
+                    String startDate = sc.nextLine();
+                    Subject subject = new Subject(code, name, credits, startDate);
+                    manager.addSubject(subject);
+                    break;
+                case 3:
+                    System.out.print("Nhập mã môn học cần xóa: ");
+                    String deleteCode = sc.nextLine();
+                    manager.removeSubject(deleteCode);
+                    break;
+                case 4:
+                    System.out.print("Nhập tên môn học cần tìm: ");
+                    String searchName = sc.nextLine();
+                    manager.searchByName(searchName);
+                    break;
+                case 5:
+                    manager.filterByCredits();
+                    break;
+                case 6:
+                    System.out.println("Đã thoát chương trình!");
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        } while (choice != 6);
+    }
+}
+
